@@ -24,13 +24,14 @@ A new  preventative vaccine (covid91) is under test in clinical trials. Given th
 
 # Methods  
 
-The first step is isolating the 4 subgroups/sub-populations. After isolating 4 subgroups I will be evaluating the efficacy of the drug for each subgroup.
+The first step is isolating the 4 subgroups/sub-populations. After isolating 4 subgroups I will be evaluating the efficacy of the drug for each subgroup.  
+
+# Males  
+
 ```{r}
 maledata<- filter(FinalData,sex=="guy")
 maledata$sex <- as.factor(maledata$sex)
 ```
-
-# Males
 
 ## Bar Chart  
 
@@ -60,7 +61,7 @@ colPerc(table1)
 print(table1)
 ```
 
-Based on the numerical summary, 337 of the 10,400 males in the study were infected with COVID. Of those 337, 197 had received the vaccine and only 141 received the placebo. The table shows that 3.72% of the males who received the vaccine contracted COVID. 2.55% of the males who received the placebo contracted COVID. The vaccine has little to no effect. However, the small effect that it did have is negative. A higher number/percentage of the infected males received the vaccine. Males who got the vaccine were about 50% more likely to contract COVID.
+Based on the numerical summary, 337 of the 10,787 males in the study were infected with COVID. Of those 337, 197 had received the vaccine and only 141 received the placebo. The table shows that 3.72% of the males who received the vaccine contracted COVID. 2.55% of the males who received the placebo contracted COVID.
 
 ## Inferential Results
 
@@ -85,6 +86,64 @@ You can convert our odds ratio of 1.47 into an effectiveness percentage by divid
 100(1.47/(1+1.47)) = 59.5% effective
 
 # Females
+
+```{r}
+femaledata<- filter(FinalData,sex=="gal")
+femaledata$sex <- as.factor(femaledata$sex)
+```
+
+## Bar Chart  
+
+```{r}
+Females <- femaledata %>% group_by(infected, treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+
+
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(Females,aes(x=infected,y=count,fill=treatment))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(Females,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+This barchart shows that 67% of the infected females were given the placebo and 33% were given the drug.
+
+## Numerical Summary  
+
+```{r}
+table2 <- xtabs(~treatment + infected, data=femaledata)
+rowPerc(table2)
+colPerc(table2)
+print(table2)
+```
+
+Based on the numerical summary, 607 of the 9,213 females in the study were infected with COVID. Of those 607, 406 had received the placebo and only 201 received the drug. The table shows that 4.44% of the females who received the drug contracted COVID while 8.67% of the females who received the placebo contracted COVID.
+
+## Inferential Results
+
+```{r}
+chisq.test(table2)
+chisqtestGC(table2)
+fisher.test(table2)
+```
+
+Since the p-value is extremely small, the odds of our results happening purely by chance is extremely unlikely.  
+
+$H_0$  
+The null hypothesis is that this vaccine makes no difference in whether or not you contract COVID for females.  
+
+$H_A$  
+The alternative hypothesis is that the vaccine does make a difference for females in whether or not they contract COVID.  
+
+Therefore we fail to reject the null hypothesis.  
+
+You can convert our odds ratio of .49 into an effectiveness percentage by dividing the odds ratio by 1+odds ratio and then multiplying by 100.  
+
+100(.49/(1+.49)) = 32.9% effective 
+
 
 # LGBTQRSTUVWXYZ (Alphabet Individuals)
 
