@@ -327,7 +327,7 @@ The null hypothesis is that this vaccine makes no difference in whether or not y
 <p><span class="math inline">\(H_A\)</span><br />
 The alternative hypothesis is that the vaccine does make a difference for males in whether or not they contract COVID.</p>
 <p>Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.</p>
-<p>By converting our odds ratios into an effectiveness percentage, we can see that the drug is 40% effective for men.</p>
+<p>By converting our odds ratios into an effectiveness percentage, we can see that the drug is 40% effective for men. Since it is below 50% this means that it is actually ineffective for the male subgroup.</p>
 </div>
 </div>
 <div id="females" class="section level1" number="4">
@@ -352,23 +352,23 @@ basicCC + geom_bar(stat=&quot;identity&quot;, position = &quot;dodge&quot;)</cod
 </div>
 <div id="numerical-summary-1" class="section level2" number="4.2">
 <h2 number="4.2"><span class="header-section-number">4.2</span> Numerical Summary</h2>
-<pre class="r"><code>table2 &lt;- xtabs(~treatment + infected, data=femaledata)
+<pre class="r"><code>table2 &lt;- xtabs(~infected + treatment, data=femaledata)
 rowPerc(table2)</code></pre>
-<pre><code>##          infected
-## treatment  covid     OK  Total
-##   drug      4.44  95.56 100.00
-##   placebo   8.67  91.33 100.00</code></pre>
+<pre><code>##         treatment
+## infected   drug placebo  Total
+##    covid  33.11   66.89 100.00
+##    OK     50.31   49.69 100.00</code></pre>
 <pre class="r"><code>colPerc(table2)</code></pre>
-<pre><code>##          infected
-## treatment  covid     OK
-##   drug     33.11  50.31
-##   placebo  66.89  49.69
-##   Total   100.00 100.00</code></pre>
+<pre><code>##         treatment
+## infected   drug placebo
+##    covid   4.44    8.67
+##    OK     95.56   91.33
+##    Total 100.00  100.00</code></pre>
 <pre class="r"><code>print(table2)</code></pre>
-<pre><code>##          infected
-## treatment covid   OK
-##   drug      201 4330
-##   placebo   406 4276</code></pre>
+<pre><code>##         treatment
+## infected drug placebo
+##    covid  201     406
+##    OK    4330    4276</code></pre>
 <p>Based on the numerical summary, 607 of the 9,213 females in the study were infected with COVID. Of those 607, 406 had received the placebo and only 201 received the drug. The table shows that 4.44% of the females who received the drug contracted COVID while 8.67% of the females who received the placebo contracted COVID.</p>
 </div>
 <div id="inferential-results-1" class="section level2" number="4.3">
@@ -383,22 +383,22 @@ rowPerc(table2)</code></pre>
 <pre><code>## Pearson&#39;s Chi-squared test with Yates&#39; continuity correction 
 ## 
 ## Observed Counts:
-##          infected
-## treatment covid   OK
-##   drug      201 4330
-##   placebo   406 4276
+##         treatment
+## infected drug placebo
+##    covid  201     406
+##    OK    4330    4276
 ## 
 ## Counts Expected by Null:
-##          infected
-## treatment  covid      OK
-##   drug    298.53 4232.47
-##   placebo 308.47 4373.53
+##         treatment
+## infected    drug placebo
+##    covid  298.53  308.47
+##    OK    4232.47 4373.53
 ## 
 ## Contributions to the chi-square statistic:
-##          infected
-## treatment covid    OK
-##   drug    31.86  2.25
-##   placebo 30.83  2.17
+##         treatment
+## infected  drug placebo
+##    covid 31.86   30.83
+##    OK     2.25    2.17
 ## 
 ## 
 ## Chi-Square Statistic = 66.4295 
@@ -517,7 +517,7 @@ The null hypothesis is that this vaccine makes no difference in whether or not y
 <p><span class="math inline">\(H_A\)</span><br />
 The alternative hypothesis is that the vaccine does make a difference for the LGBTQ community in whether or not they contract COVID.</p>
 <p>Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.</p>
-<p>By converting our odds ratios into an effectiveness percentage, we can see that the drug is 28% effective for gay people.</p>
+<p>By converting our odds ratios into an effectiveness percentage, we can see that the drug is 28% effective for gay people. Since it is below 50% this means that it is actually ineffective for the LGBTQ subgroup.</p>
 </div>
 </div>
 <div id="drug-users" class="section level1" number="6">
@@ -618,7 +618,7 @@ The alternative hypothesis is that the vaccine does make a difference for drug u
 <div id="discussion-conclusion" class="section level1" number="7">
 <h1 number="7"><span class="header-section-number">7</span> Discussion &amp; Conclusion</h1>
 <p>There were clear differences in the number of infected people based on whether or not they took the drug. The males and gay people actually became more susceptible to contracting COVID after taking the drug (the gay people especially). The drug did seem slightly effective for the females and drug users. However for all 4, there was a clear difference between taking and not taking the drug which led me to reject the null hypothesis.</p>
-<p>Also, none of the 4 effectiveness percentages were very high. The highest effectiveness among the 4 subgroups was only 67% (for females). The second highest was for drug users at 65%, third was males at 40% and lastly it was only 28% effective for the LGBTQ community. Since there are both males AND females in the LGBTQ community, these numbers do raise doubts and serious concerns about the overall effectiveness for humans overall.</p>
+<p>Also, none of the 4 effectiveness percentages were very high. The highest effectiveness among the 4 subgroups was only 67% (for females). The second highest was for drug users at 65%, third was males at 40% and lastly it was only 28% effective for the LGBTQ community. Since there are both males AND females in the LGBTQ community, these numbers do raise doubts and serious concerns about the overall effectiveness (ineffectiveness) for humans overall.</p>
 </div>
 
 

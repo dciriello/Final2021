@@ -81,7 +81,7 @@ The alternative hypothesis is that the vaccine does make a difference for males 
 
 Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.  
 
-By converting our odds ratios into an effectiveness percentage, we can see that the drug is 40% effective for men.  
+By converting our odds ratios into an effectiveness percentage, we can see that the drug is 40% effective for men. Since it is below 50% this means that it is actually ineffective for the male subgroup.
 
 # Females
 
@@ -112,7 +112,7 @@ This barchart shows that 67% of the infected females were given the placebo and 
 ## Numerical Summary  
 
 ```{r}
-table2 <- xtabs(~treatment + infected, data=femaledata)
+table2 <- xtabs(~infected + treatment, data=femaledata)
 rowPerc(table2)
 colPerc(table2)
 print(table2)
@@ -195,7 +195,7 @@ The alternative hypothesis is that the vaccine does make a difference for the LG
 
 Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.  
 
-By converting our odds ratios into an effectiveness percentage, we can see that the drug is 28% effective for gay people.  
+By converting our odds ratios into an effectiveness percentage, we can see that the drug is 28% effective for gay people. Since it is below 50% this means that it is actually ineffective for the LGBTQ subgroup.   
 
 # Drug Users
 
@@ -259,4 +259,4 @@ By converting our odds ratios into an effectiveness percentage, we can see that 
 
 There were clear differences in the number of infected people based on whether or not they took the drug. The males and gay people actually became more susceptible to contracting COVID after taking the drug (the gay people especially). The drug did seem slightly effective for the females and drug users. However for all 4, there was a clear difference between taking and not taking the drug which led me to reject the null hypothesis.  
 
-Also, none of the 4 effectiveness percentages were very high. The highest effectiveness among the 4 subgroups was only 67% (for females). The second highest was for drug users at 65%, third was males at 40% and lastly it was only 28% effective for the LGBTQ community. Since there are both males AND females in the LGBTQ community, these numbers do raise doubts and serious concerns about the overall effectiveness for humans overall.
+Also, none of the 4 effectiveness percentages were very high. The highest effectiveness among the 4 subgroups was only 67% (for females). The second highest was for drug users at 65%, third was males at 40% and lastly it was only 28% effective for the LGBTQ community. Since there are both males AND females in the LGBTQ community, these numbers do raise doubts and serious concerns about the overall effectiveness (ineffectiveness) for humans overall.
