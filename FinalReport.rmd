@@ -79,11 +79,9 @@ The null hypothesis is that this vaccine makes no difference in whether or not y
 $H_A$  
 The alternative hypothesis is that the vaccine does make a difference for males in whether or not they contract COVID.  
 
-Therefore we reject the null hypothesis.  
+Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.  
 
-You can convert our odds ratio of 1.47 into an effectiveness percentage by dividing the odds ratio by 1+odds ratio and then multiplying by 100.  
-
-100(1.47/(1+1.47)) = 59.5% effective
+By converting our odds ratios into an effectiveness percentage, we can see that the drug is 40% effective for men.  
 
 # Females
 
@@ -138,15 +136,127 @@ The null hypothesis is that this vaccine makes no difference in whether or not y
 $H_A$  
 The alternative hypothesis is that the vaccine does make a difference for females in whether or not they contract COVID.  
 
-Therefore we fail to reject the null hypothesis.  
+Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.  
 
-You can convert our odds ratio of .49 into an effectiveness percentage by dividing the odds ratio by 1+odds ratio and then multiplying by 100.  
+By converting our odds ratios into an effectiveness percentage, we can see that the drug is 67% effective for females.  
 
-100(.49/(1+.49)) = 32.9% effective 
+# LGBTQ (Gay)
+
+```{r}
+LGBTQdata<- filter(FinalData,LGBTQ=="gay")
+LGBTQdata$sex <- as.factor(LGBTQdata$LGBTQ)
+```
+
+## Bar Chart  
+
+```{r}
+Gays <- LGBTQdata %>% group_by(infected, treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
 
 
-# LGBTQRSTUVWXYZ (Alphabet Individuals)
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(Gays,aes(x=infected,y=count,fill=treatment))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(Gays,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+This barchart shows that 71% of the infected gay people among the LGBTQ community were given the drug and 29% were given the placebo.
+
+## Numerical Summary  
+
+```{r}
+table3 <- xtabs(~treatment + infected, data=LGBTQdata)
+rowPerc(table3)
+colPerc(table3)
+print(table3)
+```
+
+Based on the numerical summary, 116 of the 2,042 gay people in the study were infected with COVID. Out of those 116, 82 had received the drug and only 34 received the placebo. The table shows that 7.97% of the people who received the drug contracted COVID while 3.36% of the people who received the placebo contracted COVID.
+
+## Inferential Results
+
+```{r}
+chisq.test(table3)
+chisqtestGC(table3)
+fisher.test(table3)
+```
+
+Since the p-value is extremely small, the odds of our results happening purely by chance is extremely unlikely.  
+
+$H_0$  
+The null hypothesis is that this vaccine makes no difference in whether or not you contract COVID for the LGBTQ community.  
+
+$H_A$  
+The alternative hypothesis is that the vaccine does make a difference for the LGBTQ community in whether or not they contract COVID.  
+
+Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.  
+
+By converting our odds ratios into an effectiveness percentage, we can see that the drug is 28% effective for gay people.  
 
 # Drug Users
 
-# Discussion & Conclusion
+```{r}
+DrugUserdata<- filter(FinalData,DrugUser=="yes")
+DrugUserdata$DrugUser <- as.factor(DrugUserdata$DrugUser)
+```
+
+## Bar Chart  
+
+```{r}
+Users <- DrugUserdata %>% group_by(infected, treatment) %>% summarize(count=n()) %>% mutate(prcnt=count/sum(count))
+
+
+# the group_by followed by summarize(count=n())
+
+basicC <- ggplot(Users,aes(x=infected,y=count,fill=treatment))
+basicC + geom_bar(stat="identity",position="dodge")
+
+#Now for percentage plot
+
+basicCC <- ggplot(Users,aes(x=infected,y=prcnt*100,fill=treatment)) 
+basicCC + geom_bar(stat="identity", position = "dodge")
+```
+
+This barchart shows that 67% of the infected drug users were given the placebo and 33% were given the drug.
+
+## Numerical Summary  
+
+```{r}
+table4 <- xtabs(~treatment + infected, data=DrugUserdata)
+rowPerc(table4)
+colPerc(table4)
+print(table4)
+```
+
+Based on the numerical summary, 117 of the 2,283 drug users in the study were infected with COVID. Out of those 117, 39 had received the placebo and only 39 received the drug. The table shows that 3.36% of the people who received the drug contracted COVID while 6.46% of the people who received the placebo contracted COVID.
+
+## Inferential Results
+
+```{r}
+chisq.test(table4)
+chisqtestGC(table4)
+fisher.test(table4)
+```
+
+Since the p-value is extremely small, the odds of our results happening purely by chance is extremely unlikely.  
+
+$H_0$  
+The null hypothesis is that this vaccine makes no difference in whether or not you contract COVID for drug users.  
+
+$H_A$  
+The alternative hypothesis is that the vaccine does make a difference for drug users in whether or not they contract COVID.  
+
+Therefore we reject the null hypothesis since there is a clear difference in the number of infected people who did or did not take the drug.  
+
+By converting our odds ratios into an effectiveness percentage, we can see that the drug is 65% effective for drug users.  
+
+
+# Discussion & Conclusion  
+
+There were clear differences in the number of infected people based on whether or not they took the drug. The males and gay people actually became more susceptible to contracting COVID after taking the drug (the gay people especially). The drug did seem slightly effective for the females and drug users. However for all 4, there was a clear difference between taking and not taking the drug which led me to reject the null hypothesis.  
+
+Also, none of the 4 effectiveness percentages were very high. The highest effectiveness among the 4 subgroups was only 67% (for females). The second highest was for drug users at 65%, third was males at 40% and lastly it was only 28% effective for the LGBTQ community. Since there are both males AND females in the LGBTQ community, these numbers do raise doubts and serious concerns about the overall effectiveness for humans overall.
